@@ -1,0 +1,1 @@
+let ola_mundo = 'Olá mundo';
