@@ -34,9 +34,35 @@ class CalcController {
         this._operator.pop();
     }
 
+    getLastOperation(){
+        return this._operator[this._operator.length-1];
+    }
+
+    setLastOperation(value){
+        this._operator[this._operator.length-1] = value;
+    }
+
+    isOperator(value){
+        return (['+', '-', '/', '*', '%'].indexOf > -1);
+    }
+
     addOperation(value){
-       this._operator.push(value);
-       console.log(this._operator)
+        if(isNaN(this.getLastOperation())){
+            if(this.isOperator(value)){
+                this.setLastOperation(value);
+            }else if (isNaN(value)){
+                console.log("Outra coisa");
+            }else{
+                this._operator.push(value);
+                console.log(value);
+            }
+        }else{
+            let newValue = this.getLastOperation().toString() + value.toString();
+            this.setLastOperation(parseInt(newValue));
+        }
+
+       
+       console.log(this._operator);
     }
 
     setError(){
@@ -54,27 +80,31 @@ class CalcController {
             break;
 
             case 'soma':
-                this.soma();
+                this.addOperation('+');
             break;
 
             case 'subtracao':
-                this.subtracao();
+                this.addOperation('-');
             break;
 
             case 'divisao':
-                this.divisao();
+                this.addOperation('/');
             break;
 
             case 'multiplicacao':
-                this.multiplicacao();
+                this.addOperation('*');
             break;
 
             case 'porcento':
-                this.porcento();
+                this.addOperation('%');
             break;
 
             case 'igual':
                 this.igual();
+            break;
+
+            case 'ponto':
+                this.addOperation('.');
             break;
 
             case '0':
