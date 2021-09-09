@@ -57,8 +57,12 @@ class CalcController {
                 console.log(value);
             }
         }else{
-            let newValue = this.getLastOperation().toString() + value.toString();
-            this.setLastOperation(parseInt(newValue));
+            if (this.isOperator(value)){
+                this._operator.push(value);
+            } else {
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
+            }
         }
 
        
