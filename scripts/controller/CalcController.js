@@ -43,7 +43,7 @@ class CalcController {
     }
 
     isOperator(value){
-        return (['+', '-', '/', '*', '%'].indexOf > -1);
+        return (['+', '-', '/', '*', '%'].indexOf(value) > -1);
     }
 
     addOperation(value){
