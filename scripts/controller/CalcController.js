@@ -46,6 +46,36 @@ class CalcController {
         return (['+', '-', '/', '*', '%'].indexOf(value) > -1);
     }
 
+    pushOperation(value){
+        this._operator.push(value);        
+
+        if (this._operator.length > 3) {
+            
+            this.calc();
+
+        }
+    }
+
+    calc(){
+
+        let last = this._operator.pop();
+        let result = eval(this._operator.join(""));
+        this._operator = [result, last];
+        this.setLastNumberToDisplay();
+    }
+
+    setLastNumberToDisplay(){
+        let lastNumber;
+
+        for(let i = this._operator.length-1; i >=0; i--){
+            if (!this.isOperator(this._operator[i])) {
+                lastNumber = this._operator[i];
+                break;
+            }
+        }
+        this.display = lastNumber;
+    }
+
     addOperation(value){
         if(isNaN(this.getLastOperation())){
             if(this.isOperator(value)){
