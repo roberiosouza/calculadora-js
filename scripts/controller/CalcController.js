@@ -83,20 +83,19 @@ class CalcController {
             }else if (isNaN(value)){
                 console.log("Outra coisa");
             }else{
-                this._operator.push(value);
-                console.log(value);
+                this.pushOperation(value);
+                this.setLastNumberToDisplay();
             }
         }else{
             if (this.isOperator(value)){
-                this._operator.push(value);
+                this.pushOperation(value);
             } else {
                 let newValue = this.getLastOperation().toString() + value.toString();
                 this.setLastOperation(parseInt(newValue));
+
+                this.setLastNumberToDisplay();
             }
         }
-
-       
-       console.log(this._operator);
     }
 
     setError(){
