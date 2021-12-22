@@ -3,6 +3,8 @@ class CalcController {
     constructor(){
         this._locale = 'pt-BR';
         this._operator = [];
+        this._lastOperator = '';
+        this._lastNumber = '';
         this._displayEL = document.querySelector('#display');
         this._dateEL = document.querySelector('#data');
         this._timeEL = document.querySelector('#hora');
@@ -60,14 +62,28 @@ class CalcController {
         }
     }
 
+    getResult(){
+        return eval(this._operator.join(""));
+    }
+
     calc(){
 
         let last = '';
+        this._lastOperator = this.getLastItem();
+
+        if(this._operator.length < 3){
+            let firstItem = this._operator[0];
+            this._operator = [firstItem, this._lastOperator, this._lastNumber];
+        }
 
         if (this._operator.length > 3){
-            let last = this._operator.pop();
+            last = this._operator.pop();
+            this._lastNumber = this.getResult();
+        } else if(this._operator.length == 3) {
+            this._lastNumber = this.getLastItem(false);
         }
-        let result = eval(this._operator.join(""));
+
+        let result = this.getResult();
 
         if (last == '%') {
             result /= 100;
@@ -80,16 +96,26 @@ class CalcController {
         this.setLastNumberToDisplay();
     }
 
-    setLastNumberToDisplay(){
-        let lastNumber;
+    getLastItem(isOperator = true){
+        let lastItem;
 
         for(let i = this._operator.length-1; i >=0; i--){
-            if (!this.isOperator(this._operator[i])) {
-                lastNumber = this._operator[i];
+            if (this.isOperator(this._operator[i]) == isOperator) {
+                lastItem = this._operator[i];
                 break;
             }
         }
-        if(!lastNumber) lastNumber = 0;
+
+        if(!lastItem) {
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+        }
+        
+        return lastItem;
+    }
+
+    setLastNumberToDisplay(){
+        let lastNumber = this.getLastItem(false);
+        if((!lastNumber) || (this._operator.length <= 0)) lastNumber = 0;
         this.display = lastNumber;
     }
 
