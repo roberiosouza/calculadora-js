@@ -86,7 +86,13 @@ class CalcController {
     }
 
     getResult(){
-        return eval(this._operator.join(""));
+        try{
+            return eval(this._operator.join(""));
+        }catch(e){
+            setTimeout(() => {
+                this.setError();                
+            }, 1);
+        }
     }
 
     calc(){
