@@ -358,6 +358,12 @@ class CalcController {
     }
 
     set display(value){
+
+        if (value.toString().length > 9) {
+            this.setError();
+            return false;
+        }
+
         this._displayEL.innerHTML = value;
     }
 
