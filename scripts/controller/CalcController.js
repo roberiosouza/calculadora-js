@@ -116,7 +116,12 @@ class CalcController {
             if(last) this._operator.push(last);
         }
 
-        this.setLastNumberToDisplay();
+        if (result == 0) {
+            this.display = 0;
+        }
+        else{
+            this.setLastNumberToDisplay();
+        }
     }
 
     getLastItem(isOperator = true){
@@ -138,7 +143,7 @@ class CalcController {
 
     setLastNumberToDisplay(){
         let lastNumber = this.getLastItem(false);
-        if((!lastNumber) || (this._operator.length <= 0)) lastNumber = 0;
+        if(!lastNumber) lastNumber = 0;
         this.display = lastNumber;
     }
 
